@@ -1,0 +1,13 @@
+.App {
+}
+
+.Header {
+  padding: 20px;
+  text-align: center;
+}
+
+.Container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}

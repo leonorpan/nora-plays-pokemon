@@ -1,25 +1,42 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PokemonList from './components/PokemonList';
+import { Container, Header } from './App.module.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      pokemons: [],
+    };
+  }
+
+  componentDidMount() {
+    if (this.state.pokemons.length > 0) return;
+    fetch(
+      'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json'
+    )
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          pokemons: res.pokemon,
+        });
+      });
+  }
+
+  //shouldComponentUpdate()
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+        <header className={Header}>
+          <h1>Nora Plays Pokemon</h1>
         </header>
+        <main className={Container}>
+          {this.state.pokemons.length > 0 && (
+            <PokemonList Items={this.state.pokemons} />
+          )}
+        </main>
       </div>
     );
   }
