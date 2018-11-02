@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PokemonList from './components/PokemonList';
+import PokemonPage from './components/PokemonPage';
 import { Container, Header } from './App.module.css';
+import { Router, Link } from "@reach/router";
 
 class App extends Component {
   constructor(props) {
@@ -24,7 +26,14 @@ class App extends Component {
       });
   }
 
-  //shouldComponentUpdate()
+  renderPokemonList() {
+    return (
+      <Router>
+        <PokemonPage path="/pokemon/:pokemonId" />
+        <PokemonList default Items={this.state.pokemons} />
+      </Router>
+    )
+  }
 
   render() {
     return (
@@ -33,9 +42,7 @@ class App extends Component {
           <h1>Nora Plays Pokemon</h1>
         </header>
         <main className={Container}>
-          {this.state.pokemons.length > 0 && (
-            <PokemonList Items={this.state.pokemons} />
-          )}
+          {this.state.pokemons.length > 0 && this.renderPokemonList()}
         </main>
       </div>
     );
