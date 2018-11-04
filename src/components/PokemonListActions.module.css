@@ -3,11 +3,12 @@
 }
 
 .SearchInput {
-    min-width: 300px;
+    min-width: 250px;
     max-width: 100%;
     display: inline-block;
     padding: 5px;
     margin-right: 60px;
+    margin-bottom: 40px;
 }
 
 .PokemonFilteringStyle {
