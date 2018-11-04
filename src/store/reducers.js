@@ -6,6 +6,7 @@ import {
   SORT_POKEMONS_BY_WEAKNESS,
   FIND_CURRENT_POKEMON_BY_NUM,
   RESET_CURRENT_POKEMON,
+  RESET_FILTERS,
 } from '../store/types';
 import { parseHeight } from '../util/pokemon';
 
@@ -13,6 +14,7 @@ const INITIAL_STATE = {
   pokemonData: [],
   pokemon: [],
   current: null,
+  term: null,
 };
 
 function nameMatchesTerm(name, term) {
@@ -31,7 +33,8 @@ function filterPokemonByWeakness(pList, weakness) {
 }
 
 function sortPokemonByHeight(pList, height) {
-  return pList.sort((a, b) => parseHeight(a[height]) > parseHeight(b[height]));
+  let cList = [].concat(pList);
+  return cList.sort((a, b) => parseHeight(a[height]) > parseHeight(b[height]));
 }
 
 function filterPokemonByNameOrType(pList, term) {
@@ -62,13 +65,15 @@ const pokemonReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         pokemon: filterPokemonByNameOrType(state.pokemonData, action.term),
+        term: action.term,
       };
     case SORT_POKEMONS_BY:
       return {
         ...state,
-        pokemon: sortPokemonByHeight(state.pokemonData, action.attr),
+        pokemon: sortPokemonByHeight(state.pokemon, action.attr),
       };
     case SORT_POKEMONS_BY_WEAKNESS:
+      const data = state.term ? state.pokemon : state.pokemonData;
       return {
         ...state,
         pokemon: filterPokemonByWeakness(state.pokemonData, action.weakness),
@@ -82,6 +87,12 @@ const pokemonReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         current: null,
+      };
+    case RESET_FILTERS:
+      return {
+        ...state,
+        pokemon: state.pokemonData,
+        term: null,
       };
     default:
       return state;

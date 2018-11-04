@@ -3,7 +3,7 @@ function getEvolutionsStage(p) {
 }
 
 function parseHeight(str) {
-  return parseFloat(str.slice(0, 3).trim());
+  return parseFloat(str.slice(0, 4).trim());
 }
 
 export { getEvolutionsStage, parseHeight };

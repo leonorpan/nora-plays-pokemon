@@ -6,6 +6,7 @@ import {
   SORT_POKEMONS_BY_WEAKNESS,
   FIND_CURRENT_POKEMON_BY_NUM,
   RESET_CURRENT_POKEMON,
+  RESET_FILTERS,
 } from './types';
 
 const requestPokemons = () => ({
@@ -69,6 +70,12 @@ const resetCurrentPokemon = () => {
   };
 };
 
+const resetFilters = () => {
+  return {
+    type: RESET_FILTERS,
+  };
+};
+
 export {
   fetchPokemon,
   searchPokemonByTerm,
@@ -76,4 +83,5 @@ export {
   sortPokemonsByW,
   findCurrentPokemonByNum,
   resetCurrentPokemon,
+  resetFilters,
 };

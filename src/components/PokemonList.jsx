@@ -4,6 +4,7 @@ import {
   searchPokemonByTerm,
   sortPokemonsByAttr,
   sortPokemonsByW,
+  resetFilters,
 } from '../store/actions';
 import PokemonCard from './PokemonCard';
 import PokemonListActions from './PokemonListActions';
@@ -34,6 +35,7 @@ class PokemonList extends Component {
     return (
       <div>
         <PokemonListActions
+          onReset={() => this.props.resetFilters()}
           onTextSearch={inputString => this.props.searchByTerm(inputString)}
           onFilterWeaknessSelected={val => this.props.sortPokemonsByW(val)}
           onHeightFilterSelected={h => this.props.sortPokemonsByAttr(h)}
@@ -56,6 +58,7 @@ const mapActionsToProps = dispatch => {
     searchByTerm: term => dispatch(searchPokemonByTerm(term)),
     sortPokemonsByAttr: attr => dispatch(sortPokemonsByAttr(attr)),
     sortPokemonsByW: w => dispatch(sortPokemonsByW(w)),
+    resetFilters: () => dispatch(resetFilters()),
   };
 };
 
