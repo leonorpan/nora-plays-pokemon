@@ -4,6 +4,14 @@
 .Header {
   padding: 20px;
   text-align: center;
+  background-color: #e65a41;
+  margin-bottom: 40px;
+}
+
+.Header h1 {
+  font-weight: 300;
+  color: #fff;
+  margin: 0;
 }
 
 .Container {

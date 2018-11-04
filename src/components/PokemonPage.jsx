@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PokemonCard from './PokemonCard';
-import {PokemonPageStyle} from './PokemonPage.module.css';
+import { PokemonPageStyle } from './PokemonPage.module.css';
 
 class PokemonPage extends Component {
   constructor(props) {
@@ -9,14 +9,16 @@ class PokemonPage extends Component {
 
     this.state = {
       currentPokemon: null,
-    }
+    };
   }
 
   componentDidMount() {
-    let currPokemon = this.props.pokemon.filter(p => p.id === parseInt(this.props.pokemonId))[0];
+    let currPokemon = this.props.pokemon.filter(
+      p => p.id === parseInt(this.props.pokemonId)
+    )[0];
     this.setState({
       currentPokemon: currPokemon,
-    })
+    });
   }
 
   render() {
@@ -34,7 +36,6 @@ const mapStateToProps = state => {
     pokemon: state.pokemonData,
   };
 };
-
 
 export default connect(
   mapStateToProps,

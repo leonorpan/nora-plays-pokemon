@@ -9,7 +9,10 @@ import { Container, Header } from './App.module.css';
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(fetchPokemon());
+    // only fetch pokemon if needed
+    if (!this.props.pokemonData.length) {
+      dispatch(fetchPokemon());
+    }
   }
 
   renderPokemonList() {
@@ -36,9 +39,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  const { pokemon } = state;
+  const { pokemon, pokemonData } = state;
 
   return {
+    pokemonData,
     pokemon,
   };
 };

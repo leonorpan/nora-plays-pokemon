@@ -1,0 +1,21 @@
+.PokemonListActionsStyle {
+    margin-bottom: 40px;
+}
+
+.SearchInput {
+    min-width: 300px;
+    max-width: 100%;
+    display: inline-block;
+    padding: 5px;
+    margin-right: 60px;
+}
+
+.PokemonFilteringStyle {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.PokemonFilteringStyle select {
+    padding: 5px 10px;
+    margin-right: 20px;
+}

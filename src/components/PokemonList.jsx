@@ -1,89 +1,47 @@
 import React, { Component } from 'react';
-import PokemonCard from './PokemonCard';
 import { connect } from 'react-redux';
 import {
   searchPokemonByTerm,
   sortPokemonsByAttr,
   sortPokemonsByW,
 } from '../store/actions';
+import PokemonCard from './PokemonCard';
+import PokemonListActions from './PokemonListActions';
 import { PokemonListStyle } from './PokemonList.module.css';
 
 class PokemonList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      filterMode: false,
-    };
-
-    this.onTextSearch = this.onTextSearch.bind(this);
-    this.onFilterSelect = this.onFilterSelect.bind(this);
-    this.onFilterWeaknessSelect = this.onFilterWeaknessSelect.bind(this);
-  }
-
-  onFilterWeaknessSelect(e) {
-    let Weakness = e.target.value;
-    this.props.sortPokemonsByW(Weakness);
-  }
-
-  onFilterSelect(e) {
-    let attr = e.target.value;
-    if (attr === 'height') {
-      this.props.sortPokemonsByAttr(attr);
-    } else if (attr === 'weekness') {
-      this.setState({
-        filterMode: true,
-      });
+  renderCards() {
+    if (!this.props.pokemon.length) {
+      return <h2>No pokemon found matching your criteria...</h2>
     }
-  }
-
-  onTextSearch(e) {
-    let inputString = e.target.value.trim().toLowerCase();
-    this.props.searchByTerm(inputString);
+    return this.props.pokemon.map(pokemon => 
+        <PokemonCard
+          key={pokemon.id}
+          Item={pokemon}
+          style={{
+            width: '300px',
+          }}
+        />
+    );
   }
 
   render() {
     return (
       <div>
-        <div>
-          <input
-            placeholder="Search pokemon by type or name"
-            type="text"
-            onKeyUp={this.onTextSearch}
-          />
-          <select onChange={this.onFilterSelect}>
-            <option value="">Filter by:</option>
-            <option value="weekness">Weakness</option>
-            <option value="height">height</option>
-          </select>
-          {this.state.filterMode && (
-            <select onChange={this.onFilterWeaknessSelect}>
-              <option value="">Filter by weekness:</option>
-              <option value="Electric">Electric</option>
-              <option value="Rock">Rock</option>
-              <option value="Fighting">Fighting</option>
-              <option value="Ground">Ground</option>
-              <option value="Psychic">Psychic</option>
-            </select>
-          )}
-        </div>
-        <div className={PokemonListStyle}>
-          {this.props.pokemon.map(pokemon => {
-            return <PokemonCard key={pokemon.id} Item={pokemon} style={{
-              width: '300px',
-            }}/>;
-          })}
-        </div>
+        <PokemonListActions
+          onTextSearch={inputString => this.props.searchByTerm(inputString)}
+          onFilterWeaknessSelected={val => this.props.sortPokemonsByW(val)}
+          onHeightFilterSelected={(h) => this.props.sortPokemonsByAttr(h)}
+        />
+        <div className={PokemonListStyle}>{this.renderCards()}</div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  const { pokemon } = state;
-
   return {
-    pokemon,
+    pokemon: state.pokemon,
   };
 };
 
