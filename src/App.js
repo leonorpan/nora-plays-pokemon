@@ -29,9 +29,7 @@ class App extends Component {
         <header className={Header}>
           <h1>Nora Plays Pokemon</h1>
         </header>
-        <main className={Container}>
-          {this.renderPokemonList()}
-        </main>
+        <main className={Container}>{this.renderPokemonList()}</main>
       </div>
     );
   }

@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import {POKEMON_WEEKNESSES} from '../Cnst';
-import {PokemonListActionsStyle, SearchInput, PokemonFilteringStyle} from './PokemonListActions.module.css';
+import { POKEMON_WEEKNESSES } from '../Cnst';
+import {
+  PokemonListActionsStyle,
+  SearchInput,
+  PokemonFilteringStyle,
+} from './PokemonListActions.module.css';
 
 class PokemonListActions extends Component {
   constructor(props) {
@@ -36,17 +40,24 @@ class PokemonListActions extends Component {
           }
         />
         <div className={PokemonFilteringStyle}>
-        <select onChange={this.onFilterSelect}>
-          <option value="">Filter by:</option>
-          <option value="weekness">Weakness</option>
-          <option value="height">height</option>
-        </select>
-        {this.state.filterMode && (
-          <select onChange={e => this.props.onFilterWeaknessSelected(e.target.value)}>
-            <option value="">Filter by weekness:</option>
-            {POKEMON_WEEKNESSES.map((w,i) => <option key={i+w} value={w}>{w}</option>)}
+          <select onChange={this.onFilterSelect}>
+            <option value="">Filter by:</option>
+            <option value="weekness">Weakness</option>
+            <option value="height">height</option>
           </select>
-        )}
+          {this.state.filterMode && (
+            <select
+              onChange={e =>
+                this.props.onFilterWeaknessSelected(e.target.value)
+              }>
+              <option value="">Filter by weekness:</option>
+              {POKEMON_WEEKNESSES.map((w, i) => (
+                <option key={i + w} value={w}>
+                  {w}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
       </div>
     );

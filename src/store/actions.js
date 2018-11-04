@@ -1,4 +1,12 @@
-import{ REQUEST_POKEMONS, RECEIVE_POKEMONS, FILTER_POKEMONS, SORT_POKEMONS_BY, SORT_POKEMONS_BY_WEAKNESS, FIND_CURRENT_POKEMON_BY_NUM, RESET_CURRENT_POKEMON } from './types';
+import {
+  REQUEST_POKEMONS,
+  RECEIVE_POKEMONS,
+  FILTER_POKEMONS,
+  SORT_POKEMONS_BY,
+  SORT_POKEMONS_BY_WEAKNESS,
+  FIND_CURRENT_POKEMON_BY_NUM,
+  RESET_CURRENT_POKEMON,
+} from './types';
 
 const requestPokemons = () => ({
   type: REQUEST_POKEMONS,
@@ -49,17 +57,17 @@ const sortPokemonsByW = w => {
 };
 
 const findCurrentPokemonByNum = num => {
-  return ({
+  return {
     type: FIND_CURRENT_POKEMON_BY_NUM,
     pokemonNum: num,
-  })
-}
+  };
+};
 
 const resetCurrentPokemon = () => {
-  return ({
+  return {
     type: RESET_CURRENT_POKEMON,
-  })
-}
+  };
+};
 
 export {
   fetchPokemon,
