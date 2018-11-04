@@ -9,7 +9,6 @@ import { Container, Header } from './App.module.css';
 class App extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    // only fetch pokemon if needed
     if (!this.props.pokemonData.length) {
       dispatch(fetchPokemon());
     }
@@ -31,7 +30,7 @@ class App extends Component {
           <h1>Nora Plays Pokemon</h1>
         </header>
         <main className={Container}>
-          {this.props.pokemon.length > 0 && this.renderPokemonList()}
+          {this.renderPokemonList()}
         </main>
       </div>
     );

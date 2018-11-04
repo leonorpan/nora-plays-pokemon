@@ -1,3 +1,16 @@
 .PokemonPageStyle {
   text-align: center;
 }
+
+.PokemonInfoStyles {
+  display: inline-block;
+  margin: 1rem;
+}
+
+.PokemonEvStyles {
+  color: rgba(0,0,0,0.7);
+}
+
+.PokemonInfoStyles h4 {
+  color: rgba(0,0,0,0.7);
+}

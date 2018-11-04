@@ -11,19 +11,24 @@ import { PokemonListStyle } from './PokemonList.module.css';
 
 class PokemonList extends Component {
   renderCards() {
+    if (this.props.loading) {
+      return <h2>One moment...fetching pokemon...</h2>
+    }
     if (!this.props.pokemon.length) {
       return <h2>No pokemon found matching your criteria...</h2>
     }
     return this.props.pokemon.map(pokemon => 
         <PokemonCard
-          key={pokemon.id}
+          key={pokemon.id + pokemon.name}
           Item={pokemon}
           style={{
-            width: '300px',
+            width: '260px',
+            border: '1px solid #d8e9ef',
           }}
         />
     );
   }
+
 
   render() {
     return (
@@ -42,6 +47,7 @@ class PokemonList extends Component {
 const mapStateToProps = state => {
   return {
     pokemon: state.pokemon,
+    loading: state.loading,
   };
 };
 

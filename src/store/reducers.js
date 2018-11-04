@@ -4,11 +4,14 @@ import {
   FILTER_POKEMONS,
   SORT_POKEMONS_BY,
   SORT_POKEMONS_BY_WEAKNESS,
+  FIND_CURRENT_POKEMON_BY_NUM,
+  RESET_CURRENT_POKEMON,
 } from '../store/actions';
 
 const INITIAL_STATE = {
   pokemonData: [],
   pokemon: [],
+  current: null,
 };
 
 function parsePokemonHeight(heightStr) {
@@ -42,6 +45,10 @@ function filterPokemonByNameOrType(pList, term) {
   );
 }
 
+function findPokemonByNum(pList, num) {
+  return pList.filter(p => p.num === num)[0];
+}
+
 const pokemonReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case RECEIVE_POKEMONS:
@@ -71,6 +78,16 @@ const pokemonReducer = (state = INITIAL_STATE, action) => {
         ...state,
         pokemon: filterPokemonByWeakness(state.pokemonData, action.weakness),
       };
+    case FIND_CURRENT_POKEMON_BY_NUM:
+      return {
+        ...state,
+        current: findPokemonByNum(state.pokemonData, action.pokemonNum)
+      }
+    case RESET_CURRENT_POKEMON:
+      return {
+        ...state,
+        current: null,
+      }
     default:
       return state;
   }
