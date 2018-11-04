@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {POKEMON_WEEKNESSES} from '../Cnst';
 import {PokemonListActionsStyle, SearchInput, PokemonFilteringStyle} from './PokemonListActions.module.css';
 
 class PokemonListActions extends Component {
@@ -43,11 +44,7 @@ class PokemonListActions extends Component {
         {this.state.filterMode && (
           <select onChange={e => this.props.onFilterWeaknessSelected(e.target.value)}>
             <option value="">Filter by weekness:</option>
-            <option value="Electric">Electric</option>
-            <option value="Rock">Rock</option>
-            <option value="Fighting">Fighting</option>
-            <option value="Ground">Ground</option>
-            <option value="Psychic">Psychic</option>
+            {POKEMON_WEEKNESSES.map((w,i) => <option key={i+w} value={w}>{w}</option>)}
           </select>
         )}
         </div>

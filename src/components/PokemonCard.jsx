@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
-import { PokemonCardStyle, PokemonCardImage, PokemonTitleLink, PokemonTagStyles, PokemonMetaStyle } from './PokemonCard.module.css';
 import { Link } from '@reach/router';
-
-function getEvolutionStage(pokemon) {
-  if (pokemon.next_evolution && pokemon.prev_evolution ) {
-    return 2
-  } else if (pokemon.next_evolution) {
-    return 1
-  } else {
-    return 3
-  }
-}
+import { PokemonCardStyle, PokemonCardImage, PokemonTitleLink, PokemonTagStyles, PokemonMetaStyle } from './PokemonCard.module.css';
+import { getEvolutionsStage } from '../util/pokemon';
 
 class PokemonCard extends Component {
   render() {
@@ -25,12 +16,10 @@ class PokemonCard extends Component {
         </Link>
         <hr></hr>
         <div>
-          {Pokemon.type.map((type) => {
-            return <div className={PokemonTagStyles} key={type}>{type}</div>
-          })}
+          {Pokemon.type.map((type) => <div className={PokemonTagStyles} key={type}>{type}</div>)}
         </div>
         <div className={PokemonMetaStyle}>
-          <p>Evolution stage: {getEvolutionStage(Pokemon)}</p>
+          <p>Evolution stage: {getEvolutionsStage(Pokemon)}</p>
           <p>Height: {Pokemon.height}</p>
           <p>Weight: {Pokemon.weight}</p> 
         </div>

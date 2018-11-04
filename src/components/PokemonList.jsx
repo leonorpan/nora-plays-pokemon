@@ -17,6 +17,7 @@ class PokemonList extends Component {
     if (!this.props.pokemon.length) {
       return <h2>No pokemon found matching your criteria...</h2>
     }
+    
     return this.props.pokemon.map(pokemon => 
         <PokemonCard
           key={pokemon.id + pokemon.name}

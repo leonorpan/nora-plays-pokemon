@@ -6,7 +6,8 @@ import {
   SORT_POKEMONS_BY_WEAKNESS,
   FIND_CURRENT_POKEMON_BY_NUM,
   RESET_CURRENT_POKEMON,
-} from '../store/actions';
+} from '../store/types';
+import {parseHeight} from '../util/pokemon'
 
 const INITIAL_STATE = {
   pokemonData: [],
@@ -14,9 +15,6 @@ const INITIAL_STATE = {
   current: null,
 };
 
-function parsePokemonHeight(heightStr) {
-  return parseFloat(heightStr.slice(0, 3).trim());
-}
 
 function nameMatchesTerm(name, term) {
   return name.toLowerCase().startsWith(term);
@@ -35,7 +33,7 @@ function filterPokemonByWeakness(pList, weakness) {
 
 function sortPokemonByHeight(pList, height) {
   return pList.sort(
-    (a, b) => parsePokemonHeight(a[height]) > parsePokemonHeight(b[height])
+    (a, b) => parseHeight(a[height]) > parseHeight(b[height])
   );
 }
 
