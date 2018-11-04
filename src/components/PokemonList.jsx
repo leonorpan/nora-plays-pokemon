@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import PokemonCard from './PokemonCard';
+import { connect } from 'react-redux';
+import {
+  searchPokemonByTerm,
+  sortPokemonsByAttr,
+  sortPokemonsByW,
+} from '../store/actions';
 import { PokemonListStyle } from './PokemonList.module.css';
 
 class PokemonList extends Component {
@@ -7,7 +13,6 @@ class PokemonList extends Component {
     super(props);
 
     this.state = {
-      pokemonList: [].concat(this.props.Items),
       filterMode: false,
     };
 
@@ -18,28 +23,14 @@ class PokemonList extends Component {
 
   onFilterWeaknessSelect(e) {
     let Weakness = e.target.value;
-    let filteredPokemonList = this.props.Items.filter(pokemon => {
-      return pokemon.weaknesses.filter(w => w === Weakness).length > 0;
-    });
-    this.setState({
-      pokemonList: filteredPokemonList,
-    });
+    this.props.sortPokemonsByW(Weakness);
   }
 
   onFilterSelect(e) {
-    let val = e.target.value;
-    if (val === 'h') {
-      let filteredPokemonList = [].concat(this.props.Items);
-      filteredPokemonList.sort(function(a, b) {
-        let heightAToNum = parseFloat(a.height.slice(0, 3).trim());
-        let heightBToNum = parseFloat(b.height.slice(0, 3).trim());
-        return heightAToNum > heightBToNum;
-      });
-
-      this.setState({
-        pokemonList: filteredPokemonList,
-      });
-    } else if (val === 'w') {
+    let attr = e.target.value;
+    if (attr === 'height') {
+      this.props.sortPokemonsByAttr(attr);
+    } else if (attr === 'weekness') {
       this.setState({
         filterMode: true,
       });
@@ -47,18 +38,8 @@ class PokemonList extends Component {
   }
 
   onTextSearch(e) {
-    let input = e.target.value.trim().toLowerCase();
-    let resultList = this.props.Items.filter(p => {
-      let name = p.name.toLowerCase();
-      let hasType = p.type.filter(pokemonType => {
-        return pokemonType.toLowerCase().startsWith(input);
-      });
-      return name.startsWith(input) || hasType.length > 0;
-    });
-
-    this.setState({
-      pokemonList: resultList,
-    });
+    let inputString = e.target.value.trim().toLowerCase();
+    this.props.searchByTerm(inputString);
   }
 
   render() {
@@ -72,8 +53,8 @@ class PokemonList extends Component {
           />
           <select onChange={this.onFilterSelect}>
             <option value="">Filter by:</option>
-            <option value="w">Weakness</option>
-            <option value="h">height</option>
+            <option value="weekness">Weakness</option>
+            <option value="height">height</option>
           </select>
           {this.state.filterMode && (
             <select onChange={this.onFilterWeaknessSelect}>
@@ -87,8 +68,10 @@ class PokemonList extends Component {
           )}
         </div>
         <div className={PokemonListStyle}>
-          {this.state.pokemonList.map(pokemon => {
-            return <PokemonCard key={pokemon.id} Item={pokemon} />;
+          {this.props.pokemon.map(pokemon => {
+            return <PokemonCard key={pokemon.id} Item={pokemon} style={{
+              width: '300px',
+            }}/>;
           })}
         </div>
       </div>
@@ -96,4 +79,23 @@ class PokemonList extends Component {
   }
 }
 
-export default PokemonList;
+const mapStateToProps = state => {
+  const { pokemon } = state;
+
+  return {
+    pokemon,
+  };
+};
+
+const mapActionsToProps = dispatch => {
+  return {
+    searchByTerm: term => dispatch(searchPokemonByTerm(term)),
+    sortPokemonsByAttr: attr => dispatch(sortPokemonsByAttr(attr)),
+    sortPokemonsByW: w => dispatch(sortPokemonsByW(w)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(PokemonList);
