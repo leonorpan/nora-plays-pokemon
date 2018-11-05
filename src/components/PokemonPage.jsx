@@ -35,7 +35,7 @@ class PokemonPage extends Component {
     const Pokemon = this.props.current;
     if (!Pokemon) return null;
     const hasEvolutions =
-      Pokemon.prev_evolution.length || Pokemon.next_evolution.length;
+      Pokemon.prev_evolution || Pokemon.next_evolution;
 
     return (
       <div className={PokemonPageStyle}>
