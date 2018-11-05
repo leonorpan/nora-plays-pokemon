@@ -2,25 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from '@reach/router';
 import PokemonCard from './PokemonCard';
-import {
-  PokemonPageStyle,
-  PokemonInfoStyles,
-  PokemonEvStyles,
-} from './PokemonPage.module.css';
+import PokemonTeaser from './PokemonTeaser';
 import { findCurrentPokemonByNum, resetCurrentPokemon } from '../store/actions';
-
-function getEvolutions(ev) {
-  return ev ? ev.map(ne => ne.num) : [];
-}
-
-const PokemonInfo = ({ Pokemon }) => {
-  return (
-    <div className={PokemonInfoStyles}>
-      <img src={Pokemon.img} alt="" width="60" height="60" />
-      <h4>{Pokemon.name}</h4>
-    </div>
-  );
-};
+import { getEvolutions } from '../util/pokemon';
+import { PokemonPageStyle, PokemonEvStyles } from './PokemonPage.module.css';
 
 class PokemonPage extends Component {
   componentDidMount() {
@@ -36,29 +21,32 @@ class PokemonPage extends Component {
   }
 
   componentWillUnmount() {
-    this.props.resetCurrentPokemon();
+    //this.props.resetCurrentPokemon();
   }
 
   renderRelatedGenerations(pokemon) {
-    const prev = getEvolutions(pokemon.prev_evolution);
-    const next = getEvolutions(pokemon.next_evolution);
-    const evs = prev.concat(next);
+    const evs = getEvolutions(pokemon.prev_evolution, pokemon.next_evolution);
     return this.props.pokemon
       .filter(p => evs.indexOf(p.num) > -1)
-      .map(p => <PokemonInfo key={p.num} Pokemon={p} />);
+      .map(p => <div style={{display: 'inline-block', margin: 20,}}><PokemonTeaser key={p.num} Name={p.name} Img={p.img} /></div>);
   }
 
   render() {
     const Pokemon = this.props.current;
     if (!Pokemon) return null;
+    const hasEvolutions =
+      Pokemon.prev_evolution.length || Pokemon.next_evolution.length;
+
     return (
       <div className={PokemonPageStyle}>
         <Link to={'../'}>Back</Link>
         <PokemonCard Item={Pokemon} />
-        <div className={PokemonEvStyles}>
-          <h3>Evolutions:</h3>
-          {this.renderRelatedGenerations(Pokemon)}
-        </div>
+        {hasEvolutions && (
+          <div className={PokemonEvStyles}>
+            <h3>Evolutions:</h3>
+            {this.renderRelatedGenerations(Pokemon)}
+            </div>
+        )}
       </div>
     );
   }

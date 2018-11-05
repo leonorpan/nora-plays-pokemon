@@ -1,41 +1,30 @@
-import React, { Component } from 'react';
-import { Link } from '@reach/router';
-import {
-  PokemonCardStyle,
-  PokemonCardImage,
-  PokemonTitleLink,
-  PokemonTagStyles,
-  PokemonMetaStyle,
-} from './PokemonCard.module.css';
-import { getEvolutionsStage } from '../util/pokemon';
+import React from 'react';
+import PokemonTeaser from './PokemonTeaser';
+import PokemonDetails from './PokemonDetails';
+import { AppTag } from './global';
+import { getEvolutionStage } from '../util/pokemon';
+import { PokemonCardStyle } from './PokemonCard.module.css';
 
-class PokemonCard extends Component {
-  render() {
-    if (!this.props.Item) return null;
-    const Pokemon = this.props.Item;
-    const path = `/pokemon/${Pokemon.num}`;
-    return (
-      <div style={this.props.style} className={PokemonCardStyle}>
-        <img src={Pokemon.img} alt="" className={PokemonCardImage} />
-        <Link to={path} className={PokemonTitleLink}>
-          <h3>{Pokemon.name}</h3>
-        </Link>
-        <hr />
-        <div>
-          {Pokemon.type.map(type => (
-            <div className={PokemonTagStyles} key={type}>
-              {type}
-            </div>
-          ))}
-        </div>
-        <div className={PokemonMetaStyle}>
-          <p>Evolution stage: {getEvolutionsStage(Pokemon)}</p>
-          <p>Height: {Pokemon.height}</p>
-          <p>Weight: {Pokemon.weight}</p>
-        </div>
+const PokemonCard = ({ Item, style }) => {
+  if (!Item) return null;
+  const path = `/pokemon/${Item.num}`;
+
+  return (
+    <div style={style} className={PokemonCardStyle}>
+      <PokemonTeaser Img={Item.img} Name={Item.name} Path={path} />
+      <hr />
+      <div>
+        {Item.type.map(type => (
+          <AppTag key={type} Txt={type} />
+        ))}
       </div>
-    );
-  }
-}
+      <PokemonDetails
+        Height={Item.height}
+        Weight={Item.weight}
+        Stage={getEvolutionStage(Item)}
+      />
+    </div>
+  );
+};
 
 export default PokemonCard;

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { POKEMON_WEEKNESSES } from '../Cnst';
+import { POKEMON_WEEKNESSES, FILTER_OPTIONS } from '../Cnst';
+import { AppSelect, AppSearchInput } from './global';
 import {
   PokemonListActionsStyle,
-  SearchInput,
-  PokemonFilteringStyle,
   ResetBtn,
 } from './PokemonListActions.module.css';
 
@@ -15,58 +14,53 @@ class PokemonListActions extends Component {
       filterMode: false,
     };
 
-    this.onFilterSelect = this.onFilterSelect.bind(this);
+    this.onFilterTypeSelect = this.onFilterTypeSelect.bind(this);
+    this.resetFilters = this.resetFilters.bind(this);
   }
 
-  onFilterSelect(e) {
-    let attr = e.target.value;
-    if (!attr) return this.props.onReset();
-    if (attr === 'height') {
-      this.props.onHeightFilterSelected(attr);
-    } else if (attr === 'weekness') {
+  onFilterTypeSelect(val) {
+    if (!val) return this.props.onReset();
+    if (val === 'height') {
+      this.props.onHeightFilterSelected(val);
+    } else if (val === 'weekness') {
       this.setState({
         filterMode: true,
       });
     }
   }
 
+  resetFilters() {
+    this.setState({
+      filterMode: false,
+    });
+    this.props.onReset();
+  }
+
   render() {
     return (
-      <div>
-        <button className={ResetBtn} onClick={() => this.props.onReset()}>
+      <div className={PokemonListActionsStyle}>
+        <AppSearchInput
+          Placeholder="Search pokemon by type or name"
+          onInputChange={val => this.props.onTextSearch(val)}
+        />
+        <AppSelect
+          onSelectChange={this.onFilterTypeSelect}
+          Options={FILTER_OPTIONS}
+        />
+        {this.state.filterMode && (
+          <AppSelect
+            onSelectChange={this.props.onFilterWeaknessSelected}
+            Options={POKEMON_WEEKNESSES.map(w => {
+              return {
+                label: w,
+                value: w,
+              };
+            })}
+          />
+        )}
+        <button className={ResetBtn} onClick={() => this.resetFilters()}>
           Reset filters
         </button>
-        <div className={PokemonListActionsStyle}>
-          <input
-            className={SearchInput}
-            placeholder="Search pokemon by type or name"
-            type="text"
-            onKeyUp={e =>
-              this.props.onTextSearch(e.target.value.trim().toLowerCase())
-            }
-          />
-          <div className={PokemonFilteringStyle}>
-            <select onChange={this.onFilterSelect}>
-              <option value="">Filter by:</option>
-              <option value="weekness">Weakness</option>
-              <option value="height">height</option>
-            </select>
-            {this.state.filterMode && (
-              <select
-                onChange={e => {
-                  if (!e.target.value) return this.props.onReset();
-                  this.props.onFilterWeaknessSelected(e.target.value);
-                }}>
-                <option value="">Filter by weekness:</option>
-                {POKEMON_WEEKNESSES.map((w, i) => (
-                  <option key={i + w} value={w}>
-                    {w}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-        </div>
       </div>
     );
   }

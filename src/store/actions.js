@@ -8,13 +8,14 @@ import {
   RESET_CURRENT_POKEMON,
   RESET_FILTERS,
 } from './types';
+import { API_URL } from '../Cnst';
 
 const requestPokemons = () => ({
   type: REQUEST_POKEMONS,
   loading: true,
 });
 
-const receivePokemons = ({ pokemon }) => ({
+const receivePokemons = pokemon => ({
   type: RECEIVE_POKEMONS,
   pokemon: pokemon,
   receivedAt: Date.now(),
@@ -38,10 +39,37 @@ const filterPokemons = str => ({
 
 const fetchPokemon = () => dispatch => {
   dispatch(requestPokemons());
-  return fetch(
-    `https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json`
-  )
+  return fetch(API_URL)
     .then(response => response.json())
+    .then(({ pokemon }) =>
+      pokemon.map(
+        ({
+          id,
+          img,
+          num,
+          name,
+          height,
+          weight,
+          type,
+          weaknesses,
+          next_evolution,
+          prev_evolution,
+        }) => {
+          return {
+            id,
+            img,
+            num,
+            name,
+            height,
+            weight,
+            type,
+            weaknesses,
+            next_evolution,
+            prev_evolution,
+          };
+        }
+      )
+    )
     .then(json => dispatch(receivePokemons(json)));
 };
 

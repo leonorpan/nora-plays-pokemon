@@ -1,3 +1,6 @@
+const API_URL =
+  'https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json';
+
 const POKEMON_WEEKNESSES = [
   'Bug',
   'Dark',
@@ -17,4 +20,19 @@ const POKEMON_WEEKNESSES = [
   'Water',
 ];
 
-export { POKEMON_WEEKNESSES };
+const FILTER_OPTIONS = [
+  {
+    label: 'Filter by:',
+    value: '',
+  },
+  {
+    label: 'Weakness',
+    value: 'weekness',
+  },
+  {
+    label: 'Height',
+    value: 'height',
+  },
+];
+
+export { POKEMON_WEEKNESSES, API_URL, FILTER_OPTIONS };

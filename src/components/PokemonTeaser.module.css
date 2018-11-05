@@ -1,0 +1,13 @@
+.ImageStyle {
+  width: 120px;
+  height: 120px;
+}
+
+.LinkStyle {
+  color: #297383;
+  text-decoration: none;
+}
+
+.LinkStyle :hover {
+  color: #8bc5cd;
+}

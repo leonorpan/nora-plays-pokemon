@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import {AppMessage} from './global';
 import {
   searchPokemonByTerm,
   sortPokemonsByAttr,
@@ -8,15 +9,15 @@ import {
 } from '../store/actions';
 import PokemonCard from './PokemonCard';
 import PokemonListActions from './PokemonListActions';
-import { PokemonListStyle } from './PokemonList.module.css';
+import { Wrapper } from './PokemonList.module.css';
 
 class PokemonList extends Component {
   renderCards() {
     if (this.props.loading) {
-      return <h2>One moment...fetching pokemon...</h2>;
+      return <AppMessage Msg={'One moment...fetching pokemon...'} />;
     }
     if (!this.props.pokemon.length) {
-      return <h2>No pokemon found matching your criteria...</h2>;
+      return <AppMessage Msg={'No pokemon found matching your criteria...'} />;
     }
 
     return this.props.pokemon.map(pokemon => (
@@ -40,7 +41,7 @@ class PokemonList extends Component {
           onFilterWeaknessSelected={val => this.props.sortPokemonsByW(val)}
           onHeightFilterSelected={h => this.props.sortPokemonsByAttr(h)}
         />
-        <div className={PokemonListStyle}>{this.renderCards()}</div>
+        <div className={Wrapper}>{this.renderCards()}</div>
       </div>
     );
   }
